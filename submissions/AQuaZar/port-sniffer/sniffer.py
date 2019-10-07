@@ -1,16 +1,15 @@
-from __future__ import print_function  # Compatibility with python2
 import sys
 import argparse
 import socket
 
 
-def range_type(astr, min=0, max=65535):
+def range_type(astr, minimal=0, maximal=65535):
     value = int(astr)
-    if min <= value <= max:
+    if minimal <= value <= maximal:
         return value
     else:
         raise argparse.ArgumentTypeError(
-            "value not in range {min}-{max}".format(min, max)
+            "value not in range {min}-{max}".format(minimal, maximal)
         )
 
 
