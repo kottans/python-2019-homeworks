@@ -53,21 +53,13 @@ def port_scan(host, first, last):
 
 
 if __name__ == "__main__":
-    ports = []
     try:
         ports = port_scan(args.host, args.ports[0], args.ports[1])
-    except KeyboardInterrupt:
-        print("Interrupted by user")
-    except socket.gaierror:
-        print("Hostname could not be resolved")
-        sys.exit()
-    except socket.error:
-        print("Couldn't connect to server")
+    except (KeyboardInterrupt, socket.gaierror, socket.error) as error:
+        print(error)
         sys.exit()
 
-    if len(ports) == 0:
-        print("Not found any opened ports on desired host")
-    elif len(ports) == 1:
-        print(f"Port {ports[0]} is opened")
+    if ports:
+        print("Opened: " + ", ".join(map(str, ports)))
     else:
-        print(("Ports " + ", ".join(map(str, ports)) + " are opened."))
+        print("Not found any opened ports on desired host")
