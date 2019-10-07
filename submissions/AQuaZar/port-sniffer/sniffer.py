@@ -8,9 +8,7 @@ def range_type(astr, minimal=0, maximal=65535):
     if minimal <= value <= maximal:
         return value
     else:
-        raise argparse.ArgumentTypeError(
-            "value not in range {min}-{max}".format(minimal, maximal)
-        )
+        raise argparse.ArgumentTypeError(f"value not in range {minimal}-{maximal}")
 
 
 parser = argparse.ArgumentParser(
@@ -70,6 +68,6 @@ if __name__ == "__main__":
     if len(ports) == 0:
         print("Not found any opened ports on desired host")
     elif len(ports) == 1:
-        print("Port {0} is opened".format(ports[0]))
+        print(f"Port {ports[0]} is opened")
     else:
         print(("Ports " + ", ".join(map(str, ports)) + " are opened."))
