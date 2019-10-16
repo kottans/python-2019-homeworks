@@ -11,7 +11,7 @@
         {"data": <value popped from stack}
 
     linked list
-        <socked>/list
+        <socket>/list
 
         GET request returns the contents of list in a json object
 
