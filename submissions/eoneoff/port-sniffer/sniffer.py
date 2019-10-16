@@ -55,7 +55,7 @@ def _parse_host(host):
     else: return host
 
 def _parse_ports(ports):
-    if not re.search('^\d{1,4}-\d{1,4}$', ports):
+    if not re.search('^\d{1,5}-\d{1,5}$', ports):
         raise ValueError
     limits = [int(i) for i in ports.split('-')]
     if limits[0] >= limits[1] or any([i not in range(1, 65536) for i in limits]):
@@ -82,6 +82,9 @@ def _parse_arguments(args):
                 print("Invalid ports specified, setting to default (1-65535)")
     return(host, ports)
 
+def _make_result_string(ports):
+    return (f'Port{"s" if len(ports) > 1 else ""} {", ".join((str(p) for p in ports))} {"are" if len(ports) > 1 else "is"}' if ports else 'No ports are') + ' open'
+
 def _scan(host, ports, module=False, silent=False):
     socket.setdefaulttimeout(0.3)
     open_ports = []
@@ -95,14 +98,7 @@ def _scan(host, ports, module=False, silent=False):
             else:
                 print(f'{next(twr)}\b', end='', flush=True)
     if not silent or not module:
-        result = ''
-        if open_ports:
-            result = "Port{} {} {}".format('s' if len(open_ports) == 1 \
-                else '', ' '.join((str(p) for p in open_ports)), \
-                    "are" if len(open_ports) > 1 else "is")
-        else:
-            result = "No ports are"
-        print(f' \n{result} open')
+        print(f' \n{_make_result_string(open_ports)}')
     if module:
         return open_ports
 
