@@ -18,7 +18,7 @@ class LinkedList:
                     node.next = Node(value, node.next)
                     self._length+=1
                     return
-            error_message = f'Value {value} is not in the list'
+            error_message = f'Value {successor} is not in the list'
             raise ValueError(error_message)
         else:
             self._root = Node(value, self._root)
