@@ -94,13 +94,3 @@ else:
     print()
     print('You have no "--host" argument, try again with it')
     empty()
-
-LEVEL = 0
-
-def levelup():
-    @globals LEVEL
-    LEVEL += 1
-
-count = input('На сколько вы хотите поднять себе уровень жизни ? Напишите цифру')
-for i in range(0, count)
-    levelup()
