@@ -13,12 +13,12 @@ def sniffer(ip, start_port, end_port):
         return 0
 
     #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    for TCP_PORT in range(start_port, end_port + 1):
+    for tcp_port in range(start_port, end_port + 1):
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(0.3)
             try:
-                s.connect((ip, TCP_PORT))
+                s.connect((ip, tcp_port))
             except OSError:
                 s = None
                 continue
@@ -26,7 +26,7 @@ def sniffer(ip, start_port, end_port):
             data = s.recv(1024)
         if data:
             print('.', end='')
-            array_of_ports.append(TCP_PORT)
+            array_of_ports.append(tcp_port)
     else:
         print()
     if array_of_ports:
@@ -71,9 +71,9 @@ if "--host" in argv:
         try:
             PORTS = str(argv[PORT + 1])
             port_check = re.fullmatch(r'\d+', argv[PORT + 1])  # only number like a 12345 or other
-            port_check2 = re.fullmatch(r'\d+[-]\d+', argv[PORT + 1])  # 0-50, number-number
+            port_check2 = re.fullmatch(r'\d+[-]\d+', argv[PORT + 1])  # 0-50, number-other_number
             if port_check:
-                PORTS = '{0}-{1}'.format(argv[PORT + 1], argv[PORT + 1])
+                PORTS = '{0}-{1}'.format(argv[PORT + 1], argv[PORT + 1])  # same (only one number) like a 70-70
             elif port_check2:
                 PORTS = argv[PORT + 1]
             else:
