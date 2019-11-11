@@ -29,6 +29,7 @@ def main():
             print(','.join(array_of_ports) + ' ports are open')
         else:
             print('Host "{}" have no open ports in range {} to {}'.format(host, start_port, end_port))
+        return None
 
     if "--help" in argv:
         print()
