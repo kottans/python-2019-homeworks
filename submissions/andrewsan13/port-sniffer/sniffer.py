@@ -86,7 +86,7 @@ def main():
     else:
         print()
         print('You have no "--host" argument, try again with it')
-        return 0
+    return 0
 
 
 if __name__ == '__main__':
