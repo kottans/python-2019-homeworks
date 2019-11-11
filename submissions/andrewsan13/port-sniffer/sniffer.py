@@ -9,6 +9,7 @@ def empty():
 
 def sniffer(host, start_port, end_port):
     array_of_ports = []
+
     if not host:
         return 0
 
@@ -25,7 +26,7 @@ def sniffer(host, start_port, end_port):
             data = s.recv(1024)
         if data:
             print('.', end='')
-            array_of_ports.append(tcp_port)
+            array_of_ports.append(str(tcp_port))
     else:
         print()
     if array_of_ports:
