@@ -3,7 +3,6 @@ def main():
     import re
     from sys import argv
 
-
     def sniffer(host, start_port, end_port):
         array_of_ports = []
 
@@ -42,47 +41,47 @@ def main():
         print('If you will not using "--ports", for default will using 0-65535')
 
     if "--host" in argv:
-        HOST = argv.index('--host')  # saving index, where is --host
+        host_index = argv.index('--host')  # saving index, where is --host
 
         try:
-            host_check = re.fullmatch(r'(\d{1,4}[.]){3}\d{1,4}', argv[HOST + 1])  # 1234.1234.1234.1234
-            host_check2 = re.fullmatch(r'(\w+|\d+)+([.]\w+)+', argv[HOST + 1])  # google5.com.ua or google.com
+            host_check = re.fullmatch(r'(\d{1,4}[.]){3}\d{1,4}', argv[host_index + 1])  # 1234.1234.1234.1234
+            host_check2 = re.fullmatch(r'(\w+|\d+)+([.]\w+)+', argv[host_index + 1])  # google5.com.ua or google.com
 
             if host_check or host_check2:
-                TCP_IP = argv[HOST + 1]
+                tcp_ip = argv[host_index + 1]
             else:
                 print('IP or Domain in wrong format')
-                TCP_IP = None
+                tcp_ip = None
 
         except IndexError:
             print('You have no IP address or domain after "--host" in arguments')
-            TCP_IP = None
+            tcp_ip = None
 
         if '--ports' in argv:
-            PORT = argv.index('--ports')  # saving index, where is --port
+            port_index = argv.index('--ports')  # saving index, where is --port
 
             try:
-                port_check = re.fullmatch(r'\d+', argv[PORT + 1])  # only number like a 12345 or other
-                port_check2 = re.fullmatch(r'\d+[-]\d+', argv[PORT + 1])  # 0-50, number-other_number
+                port_check = re.fullmatch(r'\d+', argv[port_index + 1])  # only number like a 12345 or other
+                port_check2 = re.fullmatch(r'\d+[-]\d+', argv[port_index + 1])  # 0-50, number-other_number
 
                 if port_check:
-                    PORTS = '{0}-{1}'.format(argv[PORT + 1], argv[PORT + 1])  # same (only one number) like a 70-70
+                    ports_range = '{0}-{1}'.format(argv[port_index + 1], argv[port_index + 1])  # same (only one number) like a 70-70
                 elif port_check2:
-                    PORTS = argv[PORT + 1]
+                    ports_range = argv[port_index + 1]
                 else:
                     print("Wrong format --ports, that's why the program will use default 0-65535")
-                    PORTS = '0-65535'
+                    ports_range = '0-65535'
 
             except IndexError:
                 print("You did not specify ports, that's why the program will use default 0-65535")
-                PORTS = '0-65535'
+                ports_range = '0-65535'
         else:
-            PORTS = '0-65535'
+            ports_range = '0-65535'
 
-        TCP_PORT_MIN = int(PORTS.split('-')[0])
-        TCP_PORT_MAX = int(PORTS.split('-')[1])
+        min_port = int(ports_range.split('-')[0])
+        max_port = int(ports_range.split('-')[1])
 
-        sniffer(host=TCP_IP, start_port=TCP_PORT_MIN, end_port=TCP_PORT_MAX)
+        sniffer(host=tcp_ip, start_port=min_port, end_port=max_port)
 
     else:
         print()
