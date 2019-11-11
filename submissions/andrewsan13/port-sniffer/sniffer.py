@@ -90,7 +90,7 @@ if "--host" in argv:
     TCP_PORT_MIN = int(PORTS.split('-')[0])
     TCP_PORT_MAX = int(PORTS.split('-')[1])
 
-    sniffer(ip=TCP_IP, start_port=TCP_PORT_MIN, end_port=TCP_PORT_MAX)
+    sniffer(host=TCP_IP, start_port=TCP_PORT_MIN, end_port=TCP_PORT_MAX)
 
 else:
     print()
