@@ -7,18 +7,17 @@ def empty():
     return 0
 
 
-def sniffer(ip, start_port, end_port):
+def sniffer(host, start_port, end_port):
     array_of_ports = []
-    if not ip:
+    if not host:
         return 0
 
-    #s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     for tcp_port in range(start_port, end_port + 1):
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.settimeout(0.3)
             try:
-                s.connect((ip, tcp_port))
+                s.connect((host, tcp_port))
             except OSError:
                 s = None
                 continue
@@ -30,14 +29,15 @@ def sniffer(ip, start_port, end_port):
     else:
         print()
     if array_of_ports:
-        if len(array_of_ports) == 1:
-            print('{} port are open'.format(array_of_ports[0]))
-        else:
-            for i in array_of_ports:
-                print(str(i) + ',', end='')
-            print(' ports are open')
+        print(','.join(array_of_ports) + ' ports are open')
+        #if len(array_of_ports) == 1:
+        #    print('{} port are open'.format(array_of_ports[0]))
+        #else:
+        #    for i in array_of_ports:
+        #        print(str(i) + ',', end='')
+        #    print(' ports are open')
     else:
-        print('Host "{}" have no open ports in range {} to {}'.format(ip, start_port, end_port))
+        print('Host "{}" have no open ports in range {} to {}'.format(host, start_port, end_port))
 
 
 if "--help" in argv:
@@ -50,28 +50,29 @@ if "--help" in argv:
     print('If you will not using "--ports", for default will using 0-65535')
 
 if "--host" in argv:
-    HOST = argv.index('--host')
+    HOST = argv.index('--host')  # saving index, where is --host
 
     try:
         host_check = re.fullmatch(r'(\d{1,4}[.]){3}\d{1,4}', argv[HOST + 1])  # 1234.1234.1234.1234
         host_check2 = re.fullmatch(r'(\w+|\d+)+([.]\w+)+', argv[HOST + 1])  # google5.com.ua or google.com
-        if host_check:
-            TCP_IP = argv[HOST + 1]
-        elif host_check2:
+
+        if host_check or host_check2:
             TCP_IP = argv[HOST + 1]
         else:
             print('IP or Domain in wrong format')
             TCP_IP = None
+
     except IndexError:
         print('You have no IP address or domain after "--host" in arguments')
         TCP_IP = None
 
     if '--ports' in argv:
-        PORT = argv.index('--ports')
+        PORT = argv.index('--ports')  # saving index, where is --port
+
         try:
-            PORTS = str(argv[PORT + 1])
             port_check = re.fullmatch(r'\d+', argv[PORT + 1])  # only number like a 12345 or other
             port_check2 = re.fullmatch(r'\d+[-]\d+', argv[PORT + 1])  # 0-50, number-other_number
+
             if port_check:
                 PORTS = '{0}-{1}'.format(argv[PORT + 1], argv[PORT + 1])  # same (only one number) like a 70-70
             elif port_check2:
@@ -79,6 +80,7 @@ if "--host" in argv:
             else:
                 print("Wrong format --ports, that's why the program will use default 0-65535")
                 PORTS = '0-65535'
+
         except IndexError:
             print("You did not specify ports, that's why the program will use default 0-65535")
             PORTS = '0-65535'
