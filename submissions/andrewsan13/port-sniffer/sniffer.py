@@ -45,8 +45,8 @@ def main():
         host_index = argv.index('--host')  # saving index, where is --host
 
         try:
-            host_check = re.fullmatch(r'(\d{1,4}[.]){3}\d{1,4}', argv[host_index + 1])  # 1234.1234.1234.1234
-            host_check2 = re.fullmatch(r'(\w+|\d+)+([.]\w+)+', argv[host_index + 1])  # google5.com.ua or google.com
+            host_check = re.fullmatch(r'^(\d{1,3}[.]){3}\d{1,3}$', argv[host_index + 1])  # 1234.1234.1234.1234
+            host_check2 = re.fullmatch(r'^(\w+[.])+[a-z]+$', argv[host_index + 1])  # google5.com.ua or google.com
 
             if host_check or host_check2:
                 tcp_ip = argv[host_index + 1]
@@ -62,8 +62,8 @@ def main():
             port_index = argv.index('--ports')  # saving index, where is --port
 
             try:
-                port_check = re.fullmatch(r'\d+', argv[port_index + 1])  # only number like a 12345 or other
-                port_check2 = re.fullmatch(r'\d+[-]\d+', argv[port_index + 1])  # 0-50, number-other_number
+                port_check = re.fullmatch(r'^\d+$', argv[port_index + 1])  # only number like a 12345 or other
+                port_check2 = re.fullmatch(r'^\d+[-]\d+$', argv[port_index + 1])  # 0-50, number-other_number
 
                 if port_check:
                     ports_range = '{0}-{1}'.format(argv[port_index + 1], argv[port_index + 1])  # same (only one number) like a 70-70
