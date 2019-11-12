@@ -19,7 +19,11 @@ def main():
                     s = None
                     continue
                 s.sendall(b'Hello')
-                data = s.recv(1024)
+                try:
+                    data = s.recv(1024)
+                except socket.timeout:
+                    s = None
+                    continue
             if data:
                 print('.', end='')
                 array_of_ports.append(str(tcp_port))
