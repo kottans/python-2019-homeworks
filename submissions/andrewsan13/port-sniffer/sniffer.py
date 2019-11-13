@@ -51,9 +51,11 @@ def main():
         try:
             host_check = re.fullmatch(r'^(\d{1,3}[.]){3}\d{1,3}$', argv[host_index])  # 123.123.123.123
             host_check2 = re.fullmatch(r'^(\w+[.])+[a-z]+$', argv[host_index])  # google5.com.ua or google.com
-
+        except IndexError:
+            print('You have no IP address or domain after "--host" in arguments')
+            tcp_ip = None
+        else:
             if host_check:
-
                 # each number in IP is less than 256
                 less_than_256 = all(int(number) < 256 for number in argv[host_index].split('.'))
                 if less_than_256:
@@ -61,16 +63,12 @@ def main():
                 else:
                     print('IP or Domain in wrong format')
                     tcp_ip = None
-                    
+
             elif host_check2:
                 tcp_ip = argv[host_index]
             else:
                 print('IP or Domain in wrong format')
                 tcp_ip = None
-
-        except IndexError:
-            print('You have no IP address or domain after "--host" in arguments')
-            tcp_ip = None
 
         if '--ports' in argv:
             port_index = argv.index('--ports') + 1  # saving index, where is value for --ports
