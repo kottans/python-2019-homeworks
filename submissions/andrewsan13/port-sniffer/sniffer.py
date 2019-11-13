@@ -46,14 +46,24 @@ def main():
         print('If you will not using "--ports", for default will using 0-65535')
 
     if "--host" in argv:
-        host_index = argv.index('--host')  # saving index, where is --host
+        host_index = argv.index('--host') + 1  # saving index, where is value for --host
 
         try:
-            host_check = re.fullmatch(r'^(\d{1,3}[.]){3}\d{1,3}$', argv[host_index + 1])  # 1234.1234.1234.1234
-            host_check2 = re.fullmatch(r'^(\w+[.])+[a-z]+$', argv[host_index + 1])  # google5.com.ua or google.com
+            host_check = re.fullmatch(r'^(\d{1,3}[.]){3}\d{1,3}$', argv[host_index])  # 123.123.123.123
+            host_check2 = re.fullmatch(r'^(\w+[.])+[a-z]+$', argv[host_index])  # google5.com.ua or google.com
 
-            if host_check or host_check2:
-                tcp_ip = argv[host_index + 1]
+            if host_check:
+
+                # each number in IP is less than 256
+                less_than_256 = all(int(number) < 256 for number in argv[host_index].split('.'))
+                if less_than_256:
+                    tcp_ip = argv[host_index]
+                else:
+                    print('IP or Domain in wrong format')
+                    tcp_ip = None
+                    
+            elif host_check2:
+                tcp_ip = argv[host_index]
             else:
                 print('IP or Domain in wrong format')
                 tcp_ip = None
@@ -63,16 +73,16 @@ def main():
             tcp_ip = None
 
         if '--ports' in argv:
-            port_index = argv.index('--ports')  # saving index, where is --port
+            port_index = argv.index('--ports') + 1  # saving index, where is value for --ports
 
             try:
-                port_check = re.fullmatch(r'^\d+$', argv[port_index + 1])  # only number like a 12345 or other
-                port_check2 = re.fullmatch(r'^\d+[-]\d+$', argv[port_index + 1])  # 0-50, number-other_number
+                port_check = re.fullmatch(r'^\d+$', argv[port_index])  # only number like a 12345 or other
+                port_check2 = re.fullmatch(r'^\d+[-]\d+$', argv[port_index])  # 0-50, number-other_number
 
                 if port_check:
-                    ports_range = '{0}-{1}'.format(argv[port_index + 1], argv[port_index + 1])  # same (only one number) like a 70-70
+                    ports_range = f'{argv[port_index]}-{argv[port_index]}'  # same (only one number) like a 70-70
                 elif port_check2:
-                    ports_range = argv[port_index + 1]
+                    ports_range = argv[port_index]
                 else:
                     print("Wrong format --ports, that's why the program will use default 0-65535")
                     ports_range = '0-65535'
