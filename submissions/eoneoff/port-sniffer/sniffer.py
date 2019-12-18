@@ -58,7 +58,7 @@ def _parse_ports(ports):
     if not re.search('^\d{1,5}-\d{1,5}$', ports):
         raise ValueError
     limits = [int(i) for i in ports.split('-')]
-    if limits[0] >= limits[1] or any([i not in range(1, 65536) for i in limits]):
+    if limits[0] > limits[1] or any([i not in range(1, 65536) for i in limits]):
         raise ValueError
     else:
         return range(limits[0], limits[1]+1)
@@ -140,10 +140,13 @@ if __name__ == "__main__":
         INDEX = sys.argv.index('--help') + 1
         if INDEX != len(sys.argv) and sys.argv[INDEX] == 'method': help(scan)
         else: print(__doc__)
+        exit(0)
     else:
         try:
             _scan(*_parse_arguments(sys.argv[1:]))
+            exit(0)
         except Exception as err:
             print(f'\n{err}\n')
             print(__doc__)
+            exit(1)
             
