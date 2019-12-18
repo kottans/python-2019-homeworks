@@ -38,14 +38,14 @@ def ports_scanner(host: str, ports: str) -> list:
                     continue
 
     except KeyboardInterrupt:
-        print("You printed Ctrl+C")
-        sys.exit()
+        print("\nYou printed Ctrl+C")
+        sys.exit(1)
     except socket.gaierror:
         print("Hostname could not be resolved")
-        sys.exit()
+        sys.exit(1)
     except socket.error as error:
         print(error)
-        sys.exit()
+        sys.exit(1)
 
     return buffer
 
@@ -60,6 +60,8 @@ def show_ports(ports_list: list):
         print(' ports are opened')
     else:
         print('There are no open ports')
+
+    sys.exit(0)
 
 
 def main():
