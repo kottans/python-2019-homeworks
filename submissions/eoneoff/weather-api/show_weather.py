@@ -2,11 +2,13 @@ from get_weather import get_weather
 from icons import icons
 from terminaltables import SingleTable
 from color import c
+from manage_cities import save_city
 
 def show_weather(mode, location, units):
     _weather_block(get_weather(mode, location, units),
         'F°' if units=='imperial' else 'C°',
         'mph' if units=='imperial' else 'm/s')
+    save_city(location)
 
 def _weather_block(data, tUnit, wUnit):
     weather = SingleTable(list(map(lambda day: [
