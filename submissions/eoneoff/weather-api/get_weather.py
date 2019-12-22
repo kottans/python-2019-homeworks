@@ -16,7 +16,7 @@ def get_weather(mode, location, units):
 
 def _make_weather_data(data, name):
     return {
-        'icon': '_' + data['weather'][0]['icon'],
+        'icon': data['weather'][0]['icon'],
         'city': name,
         'date': datetime.fromtimestamp(data['dt']),
         'description': data['weather'][0]['description'],
