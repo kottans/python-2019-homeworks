@@ -1,15 +1,16 @@
 class Stack:
-    def __init__(self, *args):
-        self.data = list(*args)
+    def __init__(self):
+        self.data = []
 
     def push(self, element):
         self.data.append(element)
+        return f'Push {element}'
 
     def pop(self):
-        return self.data.pop()
+        return f'Pop item: {self.data.pop()}' if len(self.data) > 0 else 'stack is empty'
 
     def __str__(self):
-        return str(self.data)
+        return str(self.data) if len(self.data) > 0 else 'stack is empty'
 
 
 class Node:
@@ -64,7 +65,6 @@ class LinkedList:
                 if self.head.next:
                     self.head = self.head.next
                 else:
-                    self.lastInList = self.head
                     return
 
     def remove(self, data):
@@ -93,27 +93,29 @@ class LinkedList:
             answ.append(self.head)
             self.head = self.head.next
         self.head = self.lastInList
-        return print(' - '.join(map(str, answ)))
+        return ' - '.join(map(str, answ))
 
     def __len__(self):
         return self.len
 
 
-c1 = LinkedList()
-c1.insert('A')
-c1.insert('B')
-c1.insert('C')
-c1.insert('D')
-c1.insert('E')
-c1.insert('F')
+"""c1 = LinkedList()
+c1.insert('5')
+c1.insert('4')
+c1.insert('3')
+c1.insert('2')
+c1.insert('1')
+print(c1.show_list())
+c1.search('3')
 c1.insert('X', before='A')
-c1.show_list()
-c1.remove('E')
-c1.remove('A')
-c1.remove('F')
-c1.remove('X')
-c1.remove('C')
-c1.remove('D')
+c1.insert('3', before='h')
+print(c1.show_list())
+c1.remove('5')
+c1.remove('2')
+c1.remove('3')
+c1.remove('2')
+c1.remove('1')
 c1.remove('B')
-c1.show_list()
-print(c1.len)
+print(c1.show_list())
+print(f'len {c1.len}')
+"""
