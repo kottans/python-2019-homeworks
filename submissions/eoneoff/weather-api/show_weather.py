@@ -3,11 +3,19 @@ from icons import icons
 from terminaltables import SingleTable
 from color import c
 from manage_cities import save_city
+from wrong_city import wrong_city
 
 def show_weather(mode, location, units):
-    _weather_block(get_weather(mode, location, units),
-        'F°' if units=='imperial' else 'C°',
-        'mph' if units=='imperial' else 'm/s')
+    weather = {}
+    while not weather:
+        try:
+            weather = get_weather(mode, location, units)
+        except KeyError:
+            location = wrong_city(location)
+            
+    _weather_block(weather,
+    'F°' if units=='imperial' else 'C°',
+    'mph' if units=='imperial' else 'm/s')
     save_city(location)
 
 def _weather_block(data, tUnit, wUnit):
