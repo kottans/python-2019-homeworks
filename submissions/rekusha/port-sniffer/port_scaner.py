@@ -8,7 +8,6 @@ def port_scan(host, port):
     s.settimeout(0.3)
     try:
         s.connect((host, port))
-        print("@", end='')
         return True
     except Exception:
         return False
